@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_budget_tracker/budget_reposetory.dart';
 import 'package:flutter_budget_tracker/failure_model.dart';
 import 'package:flutter_budget_tracker/item_model.dart';
+import 'package:flutter_budget_tracker/spending_chart.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 
@@ -55,9 +56,11 @@ class _BudgetScreenState extends State<BudgetScreen> {
               //show pie chart
               final items = snapshot.data!;
               return ListView.builder(
-                itemCount: items.length,
+                itemCount: items.length + 1,
                 itemBuilder: (BuildContext context, int index) {
-                  final item = items[index];
+                  if (index == 0) return SpendingChart(items: items);
+
+                  final item = items[index - 1];
                   return Container(
                     margin: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
@@ -83,7 +86,7 @@ class _BudgetScreenState extends State<BudgetScreen> {
                       trailing: Text(
                         '-\$${item.price.toStringAsFixed(2)}',
                       ),
-                    ), 
+                    ),
                   );
                 },
               );
