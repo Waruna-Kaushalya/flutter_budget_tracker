@@ -22,17 +22,20 @@ class BudgetReposetory {
     try {
       final url =
           '${_baseUrl}databases/${dotenv.env['NOTION_DATABASE_ID']}/query';
+      print(url);
       final response = await _client.post(
         Uri.parse(url),
         headers: {
           HttpHeaders.authorizationHeader:
               'Bearer ${dotenv.env['NOTION_API_KEY']}',
-          'Notion-Version': '2021-5-13',
+          'Notion-Version': '2021-05-13',
         },
       );
 
       if (response.statusCode == 200) {
+        print(response.body);
         final data = jsonDecode(response.body) as Map<String, dynamic>;
+        
         return (data['results'] as List).map((e) => Item.forMap(e)).toList()
           ..sort((a, b) => b.date.compareTo(a.date));
       } else {

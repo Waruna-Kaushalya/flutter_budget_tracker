@@ -62,6 +62,10 @@ class _BudgetScreenState extends State<BudgetScreen> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10.0),
+                      border: Border.all(
+                        width: 2.0,
+                        color: getCatogeryColor(item.category),
+                      ),
                       boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
@@ -69,6 +73,11 @@ class _BudgetScreenState extends State<BudgetScreen> {
                           blurRadius: 6.0,
                         ),
                       ],
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        item.name,
+                      ),
                     ),
                   );
                 },
@@ -84,5 +93,23 @@ class _BudgetScreenState extends State<BudgetScreen> {
             return const Center(child: CircularProgressIndicator());
           }),
     );
+  }
+}
+
+Color getCatogeryColor(String category) {
+  switch (category) {
+    case 'Entertaitment':
+      return Colors.red[400]!;
+    case 'Food':
+      return Colors.green[400]!;
+
+    case 'Personal':
+      return Colors.blue[400]!;
+
+    case 'Transportation':
+      return Colors.purple[400]!;
+
+    default:
+      return Colors.orange[400]!;
   }
 }

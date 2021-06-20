@@ -13,10 +13,10 @@ class Item {
 
   factory Item.forMap(Map<String, dynamic> map) {
     final properties = map['properties'] as Map<String, dynamic>;
-    final dateStr = properties['Date']?['date']?['0']?['start'];
+    final dateStr = properties['Date']?['date']?[0]?['start'];
     return Item(
-      name: properties['Name']?['title']?['0']?['plain_text'] ?? '?',
-      category: properties['Category']?['select']?['0']?['name'] ?? 'Any',
+      name: properties['Name']?['title']?[0]?['plain_text'] ?? '?',
+      category: properties['Category']?['select']?['name'] ?? 'Any',
       price: (properties['Price']?['number'] ?? 0).toDouble(),
       date: dateStr != null ? DateTime.parse(dateStr) : DateTime.now(),
     );
