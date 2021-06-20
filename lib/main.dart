@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_budget_tracker/budget_reposetory.dart';
+import 'package:flutter_budget_tracker/failure_model.dart';
+import 'package:flutter_budget_tracker/item_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-Future main() async{
+Future main() async {
   await dotenv.load(fileName: ".env");
 
   runApp(MyApp());
@@ -29,8 +32,57 @@ class BudgetScreen extends StatefulWidget {
 }
 
 class _BudgetScreenState extends State<BudgetScreen> {
+  late Future<List<Item>> _futureItems;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _futureItems = BudgetReposetory().getItems();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(child: const Text('Budget Tracker')),
+      ),
+      body: FutureBuilder<List<Item>>(
+          future: _futureItems,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              //show pie chart
+              final items = snapshot.data!;
+              return ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final item = items[index];
+                  return Container(
+                    margin: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0, 2),
+                          blurRadius: 6.0,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            } else if (snapshot.hasError) {
+//Show failer error msg
+              final failure = snapshot.error as Failure;
+              return Center(
+                child: Text(failure.message),
+              );
+            }
+            //Show loading spinner
+            return const Center(child: CircularProgressIndicator());
+          }),
+    );
   }
 }

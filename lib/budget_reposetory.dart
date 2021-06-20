@@ -38,7 +38,8 @@ class BudgetReposetory {
       } else {
         throw const Failure(message: 'Something went wrong!');
       }
-    } catch (_) {
+    } catch (e) {
+      print(e);
       throw const Failure(message: 'Something went wrong!');
     }
   }
