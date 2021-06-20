@@ -49,7 +49,12 @@ class _BudgetScreenState extends State<BudgetScreen> {
       appBar: AppBar(
         title: Center(child: const Text('Budget Tracker')),
       ),
-      body: FutureBuilder<List<Item>>(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          _futureItems = BudgetReposetory().getItems();
+          setState(() {});
+        },
+        child: FutureBuilder<List<Item>>(
           future: _futureItems,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -99,7 +104,9 @@ class _BudgetScreenState extends State<BudgetScreen> {
             }
             //Show loading spinner
             return const Center(child: CircularProgressIndicator());
-          }),
+          },
+        ),
+      ),
     );
   }
 }
