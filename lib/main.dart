@@ -3,6 +3,7 @@ import 'package:flutter_budget_tracker/budget_reposetory.dart';
 import 'package:flutter_budget_tracker/failure_model.dart';
 import 'package:flutter_budget_tracker/item_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/intl.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -75,10 +76,14 @@ class _BudgetScreenState extends State<BudgetScreen> {
                       ],
                     ),
                     child: ListTile(
-                      title: Text(
-                        item.name,
+                      title: Text(item.name),
+                      subtitle: Text(
+                        '${item.category} • ${DateFormat.yMd().format(item.date)}',
                       ),
-                    ),
+                      trailing: Text(
+                        '-\$${item.price.toStringAsFixed(2)}',
+                      ),
+                    ), 
                   );
                 },
               );
