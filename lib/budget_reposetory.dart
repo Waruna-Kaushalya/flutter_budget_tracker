@@ -18,6 +18,9 @@ class BudgetReposetory {
 
 // https://api.notion.com/v1/databases/8dd1627c65a0420991bcdc254a22f691/query
 // Future<List<Item>>
+// NOTION_DATABASE_ID=8dd1627c65a0420991bcdc254a22f691
+// NOTION_API_KEY=secret_DSbKor0auFdKJW6uU7udoNRkGmS5biAb6JNCHeWf77j
+
   Future<List<Item>> getItems() async {
     try {
       final url =
